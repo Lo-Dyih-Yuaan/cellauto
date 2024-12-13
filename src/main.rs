@@ -1,8 +1,8 @@
 #[macro_use]
-extern crate ca;
-use ca::rules;
-use ca::pattern::Pattern;
-use ca::golly;
+extern crate cellauto;
+use cellauto::rules;
+use cellauto::pattern::Pattern;
+use cellauto::golly;
 use std::convert::TryFrom;
 
 macro_rules! from_stream {

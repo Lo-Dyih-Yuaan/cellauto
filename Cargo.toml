@@ -1,8 +1,8 @@
 [package]
-name = "ca"
+name = "cellauto"
 version = "0.0.1"
 #edition = "2021"
 
 [lib]
-name = "ca"
+name = "cellauto"
 path = "src/lib.rs"

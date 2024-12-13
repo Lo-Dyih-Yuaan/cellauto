@@ -1,13 +1,13 @@
 #[macro_use]
-extern crate ca;
-use ca::rules;
-use ca::pattern::Pattern;
-use ca::golly;
+extern crate cellauto;
+use cellauto::rules;
+use cellauto::pattern::Pattern;
+use cellauto::golly;
 use std::convert::TryFrom;
-use ca::rules::logic_land::State::*;
-use ca::rules::logic_land::HorizontalDir::*;
-use ca::rules::logic_land::VerticalDir::*;
-use ca::rules::logic_land::Action::*;
+use cellauto::rules::logic_land::State::*;
+use cellauto::rules::logic_land::HorizontalDir::*;
+use cellauto::rules::logic_land::VerticalDir::*;
+use cellauto::rules::logic_land::Action::*;
 
 #[test]
 fn test_logic_land() {
