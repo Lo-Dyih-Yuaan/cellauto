@@ -21,15 +21,7 @@ macro_rules! count {
 	};
 	(@index) => {0};
 	(@index $e:tt) => {1};
-	(@index $e1:tt, $e2:tt) => {2};
-	(@index $e1:tt, $e2:tt, $e3:tt) => {3};
-	(@index $e1:tt, $e2:tt, $e3:tt, $e4:tt) => {4};
-	(@index $e1:tt, $e2:tt, $e3:tt, $e4:tt, $e5:tt) => {5};
-	(@index $e1:tt, $e2:tt, $e3:tt, $e4:tt, $e5:tt, $e6:tt) => {6};
-	(@index $e1:tt, $e2:tt, $e3:tt, $e4:tt, $e5:tt, $e6:tt, $e7:tt) => {7};
-	(@index $e1:tt, $e2:tt, $e3:tt, $e4:tt, $e5:tt, $e6:tt, $e7:tt, $e8:tt) => {8};
-	(@index $e1:tt, $e2:tt, $e3:tt, $e4:tt, $e5:tt, $e6:tt, $e7:tt, $e8:tt, $e9:tt) => {9};
-	(@index $e1:tt, $e2:tt, $e3:tt, $e4:tt, $e5:tt, $e6:tt, $e7:tt, $e8:tt, $e9:tt, $e10:tt) => {10};
+	(@index $ef:tt, $($es:tt),+) => {1 + count!{@index $($es),+}};
 	(@if $c:expr, $e:expr, $m:pat if $($os:pat),*) => {
 		if let $m = $e {$c[count!{@index $($os),*}] += 1;}
 	};
