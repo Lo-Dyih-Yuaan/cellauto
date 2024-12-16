@@ -129,36 +129,29 @@ pub fn rule(_nw: &State, n: &State, _ne: &State,
 				else {AuxiliaryAcive}
 			} else {AuxiliaryAcive},
 		AuxiliaryInhibited => InhibitedWire,
-		GateOutput(Inactive) => {
+
+		GateOutput(a) => {
 			let gates = count!{
 				NorGate(Active),  OrGate(Active),  XorGate(Active),  AndGate(Active),  TFlipFlop(Active),
 				NorGate(Inactive),OrGate(Inactive),XorGate(Inactive),AndGate(Inactive),TFlipFlop(Inactive)
 			in n,e,s,w};
-			let [_, a_or, a_xor, a_and, a_t, i_nor, i_or, i_xor, _, _] = gates;
+			let [a_nor, a_or, a_xor, a_and, a_t, i_nor, i_or, i_xor, i_and, i_t] = gates;
 			let gates = gates.iter().sum();
-			if a_xor == 1 && a_xor + i_xor == gates {!*c} //XOR
-			else if a_and > 0 && a_and == gates {!*c} //AND
-			else if a_or + i_nor > 0 && a_or + i_nor + i_or == gates {!*c} //(N)OR
-			else if a_t > 0 {!*c} //T Flip-Flop
-			else {*c}
-		},
-		GateOutput(Active) => {
-			let gates = count!{
-				NorGate(Active),  OrGate(Active),  XorGate(Active),  AndGate(Active),  TFlipFlop(Active),
-				NorGate(Inactive),OrGate(Inactive),XorGate(Inactive),AndGate(Inactive),TFlipFlop(Inactive)
-			in n,e,s,w};
-			let [a_nor, _, a_xor, _, _, _, i_or, i_xor, i_and, i_t] = gates;
-			let gates = gates.iter().sum();
-			if a_xor != 1 && a_xor + i_xor == gates {!*c} //XOR
-			else if i_and > 0 {!*c} //AND
-			else if i_or + a_nor == gates {!*c} //(N)OR
-			else if i_t + a_nor > 0 {!*c} //T Flip-Flop
+			if gates == 0 {GateOutput(Inactive)}
+			else if a_xor + i_xor == gates {GateOutput(if a_xor==1 {Active} else {Inactive})} //XOR
+			else if *a == Active && i_t > 0 {GateOutput(Inactive)} //T Flip-Flop
+			else if *a == Inactive && a_t > 0 {GateOutput(Active)} //T Flip-Flop
+			else if i_and > 0 {GateOutput(Inactive)}
+			else if a_and == gates {GateOutput(Active)} //AND
+			else if a_nor > 0 {GateOutput(Inactive)}
+			else if i_or == gates {GateOutput(Inactive)} //(N)OR
+			else if a_or + i_nor > 0 && a_or + i_nor + i_or == gates {GateOutput(Active)}
 			else {*c}
 		},
 		NorGate(Inactive)|OrGate(Inactive)|XorGate(Inactive)|AndGate(Inactive) =>
 			if is_exist!(ActiveWire in n,e,s,w) {!*c} else {*c},
 		NorGate(Active)|OrGate(Active)|XorGate(Active)|AndGate(Active) =>
-			if !is_exist!(ActiveWire|AuxiliaryAcive in n,e,s,w) {!*c} else {*c},
+			if is_exist!(ActiveWire|AuxiliaryAcive in n,e,s,w) {*c} else {!*c},
 		TFlipFlop(_) =>
 			if is_exist!(InhibitedWire in n,e,s,w) {!*c} else {*c},
 		Cross(None, None) => {

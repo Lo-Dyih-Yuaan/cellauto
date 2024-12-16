@@ -11,6 +11,7 @@ use cellauto::rules::logic_land::Action::*;
 
 #[test]
 fn test_logic_land() {
+	// 此样本规则来自<https://conwaylife.com/forums/viewtopic.php?f=11&t=2163&p=30044#p33295>，使用golly自带脚本转换
 	let tree = "num_states=27
 num_neighbors=4
 num_nodes=1766
